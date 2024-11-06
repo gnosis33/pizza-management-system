@@ -1,0 +1,12 @@
+Layer,Technology,Description
+Backend Framework,Django (Python),"Django, along with Django REST Framework (DRF), for building REST APIs and handling server-side logic."
+Backend Containerization,Docker,"Docker enables containerization for easy deployment on Cloud Run, ensuring environment consistency."
+Compute Service,Google Cloud Run,"Cloud Run allows deployment of Docker containers, auto-scales based on traffic, and is serverless."
+Database,Cloud SQL (PostgreSQL),"Managed, scalable PostgreSQL database, secure and easily integrated with Cloud Run."
+Frontend Framework,React (JavaScript),"React for building an interactive, responsive UI with component-based architecture."
+Frontend Hosting,Firebase Hosting,"Firebase Hosting for static files and React app, offering a CDN for fast, global delivery."
+API Management,Google Cloud Endpoints,"Optional for managing API gateways and securing endpoints, useful for production setups."
+CI/CD Pipeline,Cloud Build,"Automate the build, testing, and deployment processes, integrating with GitHub or GitLab."
+Testing,"Pytest (Django) and Jest/React Testing Library","Automated backend tests with Pytest and frontend tests with Jest and React Testing Library."
+Monitoring & Logging,Google Cloud Monitoring & Cloud Logging,"Real-time monitoring and logging for performance and troubleshooting."
+Documentation,Markdown (README),"Detailed README with setup, deployment, testing, and technical choices documentation."
