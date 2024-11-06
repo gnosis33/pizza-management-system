@@ -1,3 +1,23 @@
+# Requirements.md
+
+## Table of Contents
+
+- [Additional Requirements](#additional-requirements)
+  - [1. Data Persistence](#1-data-persistence)
+  - [2. Automated Test Suite](#2-automated-test-suite)
+  - [3. Code Quality](#3-code-quality)
+  - [4. User Interface](#4-user-interface)
+  - [5. Deployment](#5-deployment)
+  - [6. Documentation](#6-documentation)
+- [Stories](#stories)
+  - [Readme](#readme)
+  - [Manage Toppings](#manage-toppings)
+  - [Manage Pizzas](#manage-pizzas)
+  - [Deployment](#deployment)
+- [Development Milestones](#development-milestones)
+
+---
+
 ## **Additional Requirements**
 
 ### **1. Data Persistence**
@@ -514,3 +534,66 @@
 
   - The application is publicly accessible at the provided URL.
   - SSL certificates are set up to ensure secure connections.
+
+---
+
+## Development Milestones
+
+### Milestone 1: Backend API Development
+
+- **Objectives:**
+  - Design data models for `Topping` and `Pizza`.
+  - Implement RESTful APIs using Django REST Framework (DRF).
+  - Ensure uniqueness validation and relationships.
+  - Write unit tests for models and APIs.
+
+- **Deliverables:**
+  - Functional backend with API endpoints for CRUD operations.
+  - Test suite covering key backend functionalities.
+
+### Milestone 2: Frontend Development and Integration
+
+- **Objectives:**
+  - Set up React application structure.
+  - Develop components for managing toppings and pizzas.
+  - Integrate frontend with backend APIs.
+  - Implement form validations and user feedback mechanisms.
+
+- **Deliverables:**
+  - User-friendly interface fulfilling all user stories.
+  - Responsive design implementation.
+
+### Milestone 3: Testing and Quality Assurance
+
+- **Objectives:**
+  - Write comprehensive tests for both backend and frontend.
+  - Achieve high test coverage.
+  - Perform code reviews and refactoring for quality.
+
+- **Deliverables:**
+  - Updated test suites with detailed documentation.
+  - Improved codebase adhering to coding standards.
+
+### Milestone 4: Containerization and Local Deployment
+
+- **Objectives:**
+  - Containerize the backend application using Docker.
+  - Set up Docker Compose for local development (optional).
+  - Ensure the application runs consistently across environments.
+
+- **Deliverables:**
+  - Dockerfile and Docker Compose files.
+  - Instructions for running the application locally in containers.
+
+### Milestone 5: Cloud Deployment and Documentation Finalization
+
+- **Objectives:**
+  - Deploy the backend to Google Cloud Run.
+  - Deploy the frontend to Firebase Hosting.
+  - Set up Cloud SQL and configure connections.
+  - Finalize documentation, including the README and any additional guides.
+
+- **Deliverables:**
+  - Publicly accessible application URLs.
+  - Comprehensive documentation covering deployment, usage, and technical explanations.
+
