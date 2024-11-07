@@ -4,10 +4,10 @@ from .models import Topping, Pizza
 class ToppingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Topping
-        fields = '__all__'
+        fields = ['id', 'name']
 
     def validate_name(self, value):
-        if Topping.objects.filter(name__iexact=value).exists():
+        if Topping.objects.filter(name__iexact=value).exclude(pk=self.instance.pk if self.instance else None).exists():
             raise serializers.ValidationError("This topping already exists.")
         return value
 
@@ -19,9 +19,9 @@ class PizzaSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Pizza
-        fields = '__all__'
+        fields = ['id', 'name', 'toppings']
 
-    def validate_name(self, value):
-        if Pizza.objects.filter(name__iexact=value).exists():
-            raise serializers.ValidationError("This pizza already exists.")
+    def validate(self, value):
+        if Pizza.objects.filter(name__iexact=value['name']).exclude(pk=self.instance.pk if self.instance else None).exists():
+            raise serializers.ValidationError({'name': 'This pizza already exists.'})
         return value
