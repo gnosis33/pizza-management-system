@@ -24,16 +24,6 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 
 DEBUG = os.getenv('DEBUG') == 'True'
 
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-_(n$pz7r65uofrcmmbm(#lscmqtbs4!h=%rlm5qpke)cjs8w91'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
 ALLOWED_HOSTS = []
 
 
@@ -48,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # Third-party apps...
     'rest_framework',
+    'corsheaders',
     # Your apps...
     'api',
 ]
@@ -60,7 +51,13 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
+
+CORS_ALLOWED_ORIGINS = [
+    os.getenv('DJANGO_APP_FRONTEND_URL'),  # e.g., 'https://your-frontend-url.com'
+]
+
 
 ROOT_URLCONF = 'app.urls'
 

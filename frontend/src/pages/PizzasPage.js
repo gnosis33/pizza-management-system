@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Container, Button, Typography } from '@material-ui/core';
+import { Container, Button, Typography } from '@mui/material';
 import PizzasList from '../components/Pizzas/PizzasList';
 import PizzaForm from '../components/Pizzas/PizzaForm';
 

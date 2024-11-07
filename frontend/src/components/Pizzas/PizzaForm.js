@@ -12,7 +12,7 @@ import {
   MenuItem,
   Checkbox,
   ListItemText,
-} from '@material-ui/core';
+} from '@mui/material';
 import { getToppings, addPizza, updatePizza } from '../../services/api';
 
 const PizzaForm = ({ open, onClose, onSuccess, pizzaToEdit }) => {

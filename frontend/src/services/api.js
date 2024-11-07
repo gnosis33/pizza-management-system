@@ -1,18 +1,20 @@
 import axios from 'axios';
 
-// Determine the base URL based on the environment
-const apiClient = axios.create({
-  baseURL:
-    process.env.NODE_ENV === 'development'
-      ? '/api' // Development mode (MSW intercepts this)
-      : '${process.env.REACT_APP_BACKEND_URL}/api', // Production mode (actual backend URL) https://your-backend-url/api
-});
+const getBaseUrl = () => {
+    if (process.env.NODE_ENV === 'development') {
+      return process.env.REACT_APP_USE_LOCAL_BACKEND === 'true'
+        ? '/api' // MSW intercepts this
+        : process.env.REACT_APP_LOCAL_BACKEND_URL; // Backend URL from environment variable
+    } else {
+      // Production mode
+      return `${process.env.REACT_APP_BACKEND_URL}/api`; // Backend URL from environment variable
+    }
+  };
+  
+  const apiClient = axios.create({
+    baseURL: getBaseUrl(),
+  });
 
-// Export your API functions using apiClient
-export const getToppings = async () => {
-  const response = await apiClient.get('/toppings/');
-  return response.data;
-};
 
 // Toppings API
 export const getToppings = async () => {

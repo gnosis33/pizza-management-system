@@ -1,5 +1,5 @@
 import React from 'react';
-import { AppBar, Toolbar, Typography, Button } from '@material-ui/core';
+import { AppBar, Toolbar, Typography, Button } from '@mui/material';
 import { Link } from 'react-router-dom';
 
 const Navigation = () => {
@@ -12,7 +12,7 @@ const Navigation = () => {
         <Button color="inherit" component={Link} to="/">
           Home
         </Button>
-        <Button color="inherit" component={Link} to="/toppings">
+        <Button color="inherit" component={Link} to="/Toppings">
           Toppings
         </Button>
         <Button color="inherit" component={Link} to="/pizzas">

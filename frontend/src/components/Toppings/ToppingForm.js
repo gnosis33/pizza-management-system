@@ -6,7 +6,7 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-} from '@material-ui/core';
+} from '@mui/material';
 import { addTopping, updateTopping } from '../../services/api';
 
 const ToppingForm = ({ open, onClose, onSuccess, toppingToEdit }) => {

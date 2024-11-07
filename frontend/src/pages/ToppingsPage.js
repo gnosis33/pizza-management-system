@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Container, Button, Typography } from '@material-ui/core';
+import { Container, Button, Typography } from '@mui/material';
 import ToppingsList from '../components/Toppings/ToppingsList';
 import ToppingForm from '../components/Toppings/ToppingForm';
 

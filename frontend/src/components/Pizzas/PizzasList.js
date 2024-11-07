@@ -8,9 +8,9 @@ import {
   TableRow,
   Paper,
   IconButton,
-} from '@material-ui/core';
-import { Edit, Delete } from '@material-ui/icons';
-import { getPizzas } from '../../services/api';
+} from '@mui/material';
+import { Edit, Delete } from '@mui/icons-material';
+import { getPizzas, deletePizza } from '../../services/api';
 
 const PizzasList = ({ onEdit }) => {
   const [pizzas, setPizzas] = useState([]);

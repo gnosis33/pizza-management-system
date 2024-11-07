@@ -6,12 +6,9 @@ import reportWebVitals from './reportWebVitals';
 
 // Check if the environment is in development
 // This block of code is used to develop the frontend without the backend
-if (process.env.NODE_ENV === 'development') {
+if (process.env.NODE_ENV === 'development' && process.env.REACT_APP_USE_MSW === 'true') {
   const { worker } = require('./mocks/browser');
   worker.start();
-} else {
-  // If the environment is not in development, we can use the real API
-  // to make requests to the server.
 }
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

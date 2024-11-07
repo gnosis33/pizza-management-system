@@ -8,8 +8,8 @@ import {
   TableRow,
   Paper,
   IconButton,
-} from '@material-ui/core';
-import { Edit, Delete } from '@material-ui/icons';
+} from '@mui/material';
+import { Edit, Delete } from '@mui/icons-material';
 import { getToppings, deleteTopping } from '../../services/api';
 
 const ToppingsList = ({ onEdit }) => {
