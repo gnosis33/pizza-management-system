@@ -46,19 +46,20 @@ const PizzaForm = ({ open, onClose, onSuccess, pizzaToEdit }) => {
 
   const handleSubmit = async () => {
     try {
-      const pizzaData = {
-        name,
-        toppings: selectedToppings,
-      };
-      if (pizzaToEdit) {
-        await updatePizza(pizzaToEdit.id, pizzaData);
-      } else {
-        await addPizza(pizzaData);
-      }
-      onSuccess();
-      onClose();
+        const pizzaData = {
+            name,  // The name of the pizza
+            topping_ids: selectedToppings  // IDs of the selected toppings
+        };
+        if (pizzaToEdit) {
+            await updatePizza(pizzaToEdit.id, pizzaData);
+        } else {
+            await addPizza(pizzaData);
+        }
+        onSuccess();
+        onClose();
     } catch (err) {
-      setError(err.response?.data?.error || 'An error occurred.');
+        setError(err.response?.data || 'An error occurred.');
+        console.error('Error submitting pizza:', err.response?.data);
     }
   };
 
