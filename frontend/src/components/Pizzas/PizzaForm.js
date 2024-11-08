@@ -16,11 +16,12 @@ import {
 import { getToppings, addPizza, updatePizza } from '../../services/api';
 
 const PizzaForm = ({ open, onClose, onSuccess, pizzaToEdit }) => {
-  const [name, setName] = useState('');
-  const [selectedToppings, setSelectedToppings] = useState([]);
-  const [toppings, setToppings] = useState([]);
-  const [error, setError] = useState('');
+  const [name, setName] = useState(''); // State to store pizza name
+  const [selectedToppings, setSelectedToppings] = useState([]); // State to store selected toppings
+  const [toppings, setToppings] = useState([]); // State to store all available toppings
+  const [error, setError] = useState(''); // State to store error message
 
+  // Fetch all available toppings
   useEffect(() => {
     const fetchToppings = async () => {
       try {
@@ -33,6 +34,7 @@ const PizzaForm = ({ open, onClose, onSuccess, pizzaToEdit }) => {
     fetchToppings();
   }, []);
 
+  // Set initial form values based on whether we're editing or adding a pizza
   useEffect(() => {
     if (pizzaToEdit) {
       setName(pizzaToEdit.name);
@@ -44,6 +46,7 @@ const PizzaForm = ({ open, onClose, onSuccess, pizzaToEdit }) => {
     setError('');
   }, [pizzaToEdit]);
 
+  // Handle form submission (add or update pizza)
   const handleSubmit = async () => {
     try {
         const pizzaData = {
@@ -55,14 +58,15 @@ const PizzaForm = ({ open, onClose, onSuccess, pizzaToEdit }) => {
         } else {
             await addPizza(pizzaData);
         }
-        onSuccess();
-        onClose();
+        onSuccess(); // Callback to indicate success
+        onClose(); // Close the form dialog
     } catch (err) {
         setError(err.response?.data || 'An error occurred.');
         console.error('Error submitting pizza:', err.response?.data);
     }
   };
 
+  // Handle changes in topping selection
   const handleToppingsChange = (event) => {
     setSelectedToppings(event.target.value);
   };

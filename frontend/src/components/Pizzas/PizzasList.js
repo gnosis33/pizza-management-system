@@ -13,8 +13,9 @@ import { Edit, Delete } from '@mui/icons-material';
 import { getPizzas, deletePizza } from '../../services/api';
 
 const PizzasList = ({ onEdit }) => {
-  const [pizzas, setPizzas] = useState([]);
+  const [pizzas, setPizzas] = useState([]); // State to store pizzas
 
+  // Fetch pizzas from the API
   const fetchPizzas = async () => {
     try {
       const data = await getPizzas();
@@ -23,16 +24,18 @@ const PizzasList = ({ onEdit }) => {
       console.error('Error fetching pizzas:', error);
     }
   };
-
+ 
+  // Fetch pizzas on component mount
   useEffect(() => {
     fetchPizzas();
   }, []);
 
+  // Handle delete operation for a pizza
   const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this pizza?')) {
       try {
         await deletePizza(id);
-        fetchPizzas();
+        fetchPizzas(); // Refresh the pizzas list after deletion
       } catch (error) {
         console.error('Error deleting pizza:', error);
       }
@@ -57,12 +60,12 @@ const PizzasList = ({ onEdit }) => {
                 {pizza.toppings.map((topping) => topping.name).join(', ')}
               </TableCell>
               <TableCell align="right">
-                <IconButton color="primary" onClick={() => onEdit(pizza)}>
+                <IconButton color="primary" onClick={() => onEdit(pizza)}> {/* Trigger delete action */}
                   <Edit />
                 </IconButton>
                 <IconButton
                   color="secondary"
-                  onClick={() => handleDelete(pizza.id)}
+                  onClick={() => handleDelete(pizza.id)} // Trigger delete action
                 >
                   <Delete />
                 </IconButton>

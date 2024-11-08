@@ -10,9 +10,10 @@ import {
 import { addTopping, updateTopping } from '../../services/api';
 
 const ToppingForm = ({ open, onClose, onSuccess, toppingToEdit }) => {
-  const [name, setName] = useState('');
-  const [error, setError] = useState('');
+  const [name, setName] = useState(''); // State to store topping name
+  const [error, setError] = useState(''); // State to store error message
 
+  // Set initial form values based on whether we're editing or adding a topping
   useEffect(() => {
     if (toppingToEdit) {
       setName(toppingToEdit.name);
@@ -22,6 +23,7 @@ const ToppingForm = ({ open, onClose, onSuccess, toppingToEdit }) => {
     setError('');
   }, [toppingToEdit]);
 
+  // Handle form submission (add or update topping)
   const handleSubmit = async () => {
     try {
       if (toppingToEdit) {
@@ -29,8 +31,8 @@ const ToppingForm = ({ open, onClose, onSuccess, toppingToEdit }) => {
       } else {
         await addTopping({ name });
       }
-      onSuccess();
-      onClose();
+      onSuccess(); // Callback to indicate success
+      onClose(); // Close the form dialog
     } catch (err) {
       setError(err.response?.data?.error || 'An error occurred.');
     }

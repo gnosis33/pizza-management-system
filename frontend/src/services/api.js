@@ -23,42 +23,42 @@ const apiClient = axios.create({
 
 // Toppings API
 export const getToppings = async () => {
-  const response = await apiClient.get('/toppings/');
+  const response = await apiClient.get('/toppings/'); // GET request to fetch all toppings
   return response.data;
 };
 
 export const addTopping = async (topping) => {
-  const response = await apiClient.post('/toppings/', topping);
+  const response = await apiClient.post('/toppings/', topping); // POST request to add a new topping
   return response.data;
 };
 
 export const updateTopping = async (id, topping) => {
-  const response = await apiClient.put(`/toppings/${id}/`, topping);
+  const response = await apiClient.put(`/toppings/${id}/`, topping); // PUT request to update an existing topping
   return response.data;
 };
 
 export const deleteTopping = async (id) => {
-  await apiClient.delete(`/toppings/${id}/`);
+  await apiClient.delete(`/toppings/${id}/`); // DELETE request to remove a topping by ID
 };
 
 
 // Pizzas API
 export const getPizzas = async () => {
-    const response = await apiClient.get('/pizzas/');
+    const response = await apiClient.get('/pizzas/'); // GET request to fetch all pizzas
     return response.data;
   };
   
   export const addPizza = async (pizza) => {
-    const response = await apiClient.post('/pizzas/', pizza);
+    const response = await apiClient.post('/pizzas/', pizza); // POST request to add a new pizza
     return response.data;
   };
   
   export const updatePizza = async (id, pizza) => {
-    const response = await apiClient.put(`/pizzas/${id}/`, pizza);
+    const response = await apiClient.put(`/pizzas/${id}/`, pizza); // PUT request to update an existing pizza
     return response.data;
   };
   
   export const deletePizza = async (id) => {
-    await apiClient.delete(`/pizzas/${id}/`);
+    await apiClient.delete(`/pizzas/${id}/`); // DELETE request to remove a pizza by ID
   };
   
