@@ -1,19 +1,24 @@
 import axios from 'axios';
 
 const getBaseUrl = () => {
-    if (process.env.NODE_ENV === 'development') {
-      return process.env.REACT_APP_USE_LOCAL_BACKEND === 'true'
-        ? '/api' // MSW intercepts this
-        : process.env.REACT_APP_LOCAL_BACKEND_URL; // Backend URL from environment variable
+  if (process.env.NODE_ENV === 'development') {
+    if (process.env.REACT_APP_USE_MSW === 'true') {
+      return '/api'; // MSW intercepts this
+    } else if (process.env.REACT_APP_USE_LOCAL_BACKEND === 'true') {
+      return `${process.env.REACT_APP_LOCAL_BACKEND_URL}/api`; // Local Backend URL from environment variable
     } else {
-      // Production mode
-      return `${process.env.REACT_APP_BACKEND_URL}/api`; // Backend URL from environment variable
+      return `${process.env.REACT_APP_BACKEND_URL}/api`; // Default Backend URL from environment variable
     }
-  };
+  } else {
+    // Production mode
+    return `${process.env.REACT_APP_BACKEND_URL}/api`; // Backend URL from environment variable
+  }
+};
+
   
-  const apiClient = axios.create({
-    baseURL: getBaseUrl(),
-  });
+const apiClient = axios.create({
+  baseURL: getBaseUrl(),
+});
 
 
 // Toppings API
