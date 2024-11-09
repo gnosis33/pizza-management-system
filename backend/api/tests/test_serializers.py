@@ -25,7 +25,7 @@ class PizzaSerializerTest(TestCase):
         self.tomato = Topping.objects.create(name='Tomato')
         self.pizza_data = {
             'name': 'Margherita',
-            'toppings': [self.cheese.id, self.tomato.id]
+            'topping_ids': [self.cheese.id, self.tomato.id]
         }
 
     def test_valid_pizza_serializer(self):

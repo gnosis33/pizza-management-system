@@ -37,7 +37,7 @@ class PizzaAPITest(APITestCase):
     def test_create_pizza(self):
         data = {
             'name': 'Margherita',
-            'toppings': [self.topping1.id, self.topping2.id]
+            'topping_ids': [self.topping1.id, self.topping2.id]
         }
         response = self.client.post(self.pizza_url, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
