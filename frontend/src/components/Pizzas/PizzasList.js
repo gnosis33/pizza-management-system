@@ -1,3 +1,4 @@
+// frontend\src\components\Pizzas\PizzasList.js
 import React, { useEffect, useState } from 'react';
 import {
   Table,

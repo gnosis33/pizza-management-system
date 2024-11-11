@@ -1,3 +1,4 @@
+// frontend\src\App.js
 import React from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
@@ -15,7 +16,7 @@ import Navigation from './components/common/Navigation';
 
 function App() {
   return (
-    <Router>
+    <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
       <CssBaseline />
       <div className="App">
         <Navigation />
