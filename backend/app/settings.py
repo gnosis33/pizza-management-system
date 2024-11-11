@@ -1,6 +1,7 @@
 import os
 from pathlib import Path
 from dotenv import load_dotenv
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
@@ -11,7 +12,7 @@ load_dotenv(os.path.join(BASE_DIR, '.env'))
 SECRET_KEY = os.getenv('SECRET_KEY') # Secret key for Django application
 DEBUG = os.getenv('DEBUG') == 'True' # Enable debug mode if specified in environment variables
 
-ALLOWED_HOSTS = [] # Hosts allowed to access the application
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost').split(',')
 
 
 # Application definition
@@ -41,9 +42,7 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware', # Add CORS headers to responses
 ]
 
-CORS_ALLOWED_ORIGINS = [
-    os.getenv('DJANGO_APP_FRONTEND_URL'),  # Frontend URL allowed for CORS
-]
+CORS_ALLOWED_ORIGINS = os.getenv("DJANGO_APP_FRONTEND_URL", "http://localhost:3000").split(',')
 
 
 ROOT_URLCONF = 'app.urls'
@@ -79,6 +78,9 @@ DATABASES = {
     }
 }
 
+DATABASE_URL = os.getenv('DATABASE_URL')
+if DATABASE_URL:
+    DATABASES['default'] = dj_database_url.config(default=DATABASE_URL)
 
 # Password validation settings
 AUTH_PASSWORD_VALIDATORS = [

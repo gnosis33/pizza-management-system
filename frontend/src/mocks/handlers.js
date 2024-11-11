@@ -71,6 +71,8 @@ export const handlers = [
     return HttpResponse.json(toppings[toppingIndex], { status: 200 });
   }),
 
+
+  // Delete a topping
   http.delete('/api/toppings/:id', ({ params }) => {
     const { id } = params;
     console.log('Attempting to delete topping with ID:', id); // Debug log
@@ -186,5 +188,3 @@ export const handlers = [
   }),
 ];
 
-// the topping handlers are working all except the delete handler. the delete handler fails because the web browser has a popup that asks if you are sure you want to delete the topping. the delete handler is not able to handle this popup.
-// the pizza handlers are not working at all.
