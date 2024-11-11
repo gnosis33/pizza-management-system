@@ -33,14 +33,12 @@ const ToppingsList = ({ onEdit }) => {
 
   // Handle delete operation for a topping
   const handleDelete = async (id) => {
-    if (window.confirm('Are you sure you want to delete this topping?')) {
       try {
         await deleteTopping(id);
         fetchToppings(); // Refresh the toppings list after deletion
       } catch (error) {
         console.error('Error deleting topping:', error);
       }
-    }
   };
 
   return (

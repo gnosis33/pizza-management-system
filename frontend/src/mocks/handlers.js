@@ -2,7 +2,7 @@
 import { http, HttpResponse } from 'msw'; // Import the http namespace and HttpResponse from msw
 
 // Mock data for toppings
-const toppings = [
+let toppings = [
   { id: 1, name: 'Cheese' },
   { id: 2, name: 'Pepperoni' },
   // Add more mock toppings as needed
@@ -57,7 +57,7 @@ export const handlers = [
     const exists = toppings.some(
       (topping) =>
         topping.name.toLowerCase() === name.toLowerCase() &&
-        topping.id !== parseInt(id)
+        topping.id !== parseInt(id, 10)
     );
 
     if (exists) {
@@ -71,20 +71,33 @@ export const handlers = [
     return HttpResponse.json(toppings[toppingIndex], { status: 200 });
   }),
 
-  // Delete a topping
-  http.delete('/api/toppings/:id/', ({ params }) => {
+  http.delete('/api/toppings/:id', ({ params }) => {
     const { id } = params;
-    const toppingIndex = toppings.findIndex((t) => t.id === parseInt(id));
-
+    console.log('Attempting to delete topping with ID:', id); // Debug log
+  
+    const toppingIndex = toppings.findIndex((t) => t.id === parseInt(id, 10));
+  
     if (toppingIndex === -1) {
+      console.log('Topping not found with ID:', id); // Additional log
       return HttpResponse.json(
         { error: 'Topping not found.' },
         { status: 404 }
       );
     }
-
+  
+    // Remove the topping from the array
     toppings.splice(toppingIndex, 1);
-    return HttpResponse.text('Topping deleted', { status: 204 });
+  
+    // Reassign IDs to maintain uniqueness and order
+    toppings = toppings.map((topping, index) => ({
+      ...topping,
+      id: index + 1,
+    }));
+  
+    console.log('Deleted topping with ID:', id); // Debug log
+  
+    // Return an empty response with 204 status code (no body)
+    return new HttpResponse(null, { status: 204 });
   }),
 
   // Pizza handlers
@@ -172,3 +185,6 @@ export const handlers = [
     return HttpResponse.text('Pizza deleted', { status: 204 });
   }),
 ];
+
+// the topping handlers are working all except the delete handler. the delete handler fails because the web browser has a popup that asks if you are sure you want to delete the topping. the delete handler is not able to handle this popup.
+// the pizza handlers are not working at all.
