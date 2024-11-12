@@ -2,6 +2,13 @@
 
 A web application for pizza store owners and chefs to manage toppings and create pizza masterpieces. Built with Django, React, and deployed on Google Cloud Platform (GCP).
 
+## Live Demo
+
+Experience the Pizza Management System in action by visiting our live demo:
+
+[Pizza Management System](https://pizza-management-system-df2c5.web.app/)
+
+
 ## Table of Contents
 
 - [Project Overview](#project-overview)
