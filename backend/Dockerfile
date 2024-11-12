@@ -14,11 +14,11 @@ RUN apt-get update && \
 WORKDIR /app
 
 # Copy requirements file and install dependencies
-COPY requirements.txt /app/
+COPY backend/requirements.txt /app/
 RUN pip install --upgrade pip && pip install --no-cache-dir -r requirements.txt
 
-# Copy the rest of the application code
-COPY . /app/
+# Copy the entire backend directory
+COPY backend /app/
 
 # Expose port 8080 for Gunicorn (aligned with Cloud Run expectations)
 EXPOSE 8080

@@ -6,6 +6,13 @@ class ToppingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Topping
         fields = ['id', 'name']  # Fields to include in the serialized output
+        extra_kwargs = {
+            'name': {
+                'error_messages': {
+                    'unique': 'This topping already exists in the database. Please choose a different name.'
+                }
+            }
+        }
 
     def validate_name(self, value):
         # Check if a topping with the same name already exists (case insensitive)
@@ -26,7 +33,14 @@ class PizzaSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Pizza
-        fields = ['id', 'name', 'toppings', 'topping_ids'] # Fields to include in the serialized output
+        fields = ['id', 'name', 'toppings', 'topping_ids']  # Fields to include in the serialized output
+        extra_kwargs = {
+            'name': {
+                'error_messages': {
+                    'unique': 'A pizza with this name already exists. Please choose a different name.'
+                }
+            }
+        }
 
     def validate(self, value):
         # Check if a pizza with the same name already exists (case insensitive)
