@@ -72,6 +72,11 @@ git clone https://github.com/yourusername/pizza-management-system.git
 cd pizza-management-system
 ```
 
+### Install Prerequisites
+
+Follow the instructions here: [Prerequisites](docs/installation_prerequisites.md)
+
+
 ### Backend Setup
 
 #### 1. Set Up Virtual Environment
@@ -309,7 +314,7 @@ Thank you for exploring the Pizza Management System! If you have any feedback or
 
 ---
 
-# NOTE:
+# NOTE (WARNING):
 
 The current version of this project does not have a working version of the frontend `Jest` test. This is do to a compatibility error with `MSW` and `Jest` first it was with this error: `ReferenceError: TextEncoder is not defined` which was fixed with:
 

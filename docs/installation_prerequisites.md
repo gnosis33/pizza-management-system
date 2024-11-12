@@ -1,210 +1,239 @@
-## **Install Prerequisites**
+# **Install Prerequisites**
 
-### **Backend Prerequisites**
+## **Backend Prerequisites**
 
-1. **Python 3.8 or Higher** *(Already have using VSCode)*
+#### 1. **Python 3.8 or Higher**
 
-    -**Download**
-     - download and install latest stable version of python from [Python](https://www.python.org/downloads/).
+- **Download and Install:**
 
-   - **Verification:**
-     - Open your terminal or command prompt.
-     - Run `python --version` or `python3 --version` to confirm your Python version is 3.8 or higher.
-     - Example:
-       ```
-       $ python3 --version
-       Python 3.9.7
-       ```
+  - **Windows:**
+    1. Visit the [Python Downloads for Windows](https://www.python.org/downloads/windows/).
+    2. Download the latest Python 3.8+ installer (`python-3.x.x.exe`).
+    3. Run the installer:
+       - **Important:** Check the box that says **"Add Python to PATH"** before clicking **"Install Now"**.
+    4. Follow the installation prompts.
 
-   - **Note:**
-     - Ensure that Python is added to your system's PATH environment variable.
-     - Since you're using VSCode, you might want to select the correct Python interpreter in VSCode by pressing `Ctrl + Shift + P` (or `Cmd + Shift + P` on macOS), typing `Python: Select Interpreter`, and choosing your Python 3.8+ version.
+  - **macOS:**
+    1. Visit the [Python Downloads for macOS](https://www.python.org/downloads/macos/).
+    2. Download the latest Python 3.8+ installer (`python-3.x.x-macosx.pkg`).
+    3. Open the downloaded `.pkg` file and follow the installation instructions.
 
-2. **Docker Desktop (for containerization)** *[Need]*
+    - **Alternative via Homebrew:**
+      ```bash
+      brew install python@3.9
+      ```
+      *Replace `3.9` with your desired Python version.*
 
-   - **Installation Steps:**
+  - **Linux:**
+    - **Ubuntu/Debian:**
+      ```bash
+      sudo apt update
+      sudo apt install python3.8 python3.8-venv python3.8-dev
+      ```
+    - **Fedora:**
+      ```bash
+      sudo dnf install python3.8 python3.8-venv python3.8-devel
+      ```
+    - **Arch Linux:**
+      ```bash
+      sudo pacman -S python
+      ```
+      *Arch typically provides the latest Python version.*
 
-     - **Windows:**
+- **Verification:**
+  - Open your terminal or command prompt.
+  - Run:
+    ```bash
+    python --version
+    ```
+    or
+    ```bash
+    python3 --version
+    ```
+  - **Expected Output:**
+    ```
+    Python 3.8.x
+    ```
 
-       - **System Requirements:**
-         - Windows 10 64-bit: Pro, Enterprise, or Education (Build 1903 or higher).
-         - Enable Hyper-V and Containers Windows features.
+- **Note:**
+  - Ensure that Python is added to your system's PATH environment variable.
+  - In **VSCode**, select the correct Python interpreter:
+    - Press `Ctrl + Shift + P` (or `Cmd + Shift + P` on macOS).
+    - Type `Python: Select Interpreter`.
+    - Choose your Python 3.8+ version.
 
-       - **Install Docker Desktop:**
-         - Download the Docker Desktop for Windows installer from the [Docker Hub](https://hub.docker.com/editions/community/docker-ce-desktop-windows).
-         - Run the installer and follow the prompts.
-         - Restart your computer if prompted.
+#### 2. **Docker Desktop (for containerization)**
 
-       - **Post-Installation:**
-         - Launch Docker Desktop from the Start menu.
-         - Wait for Docker to start (Docker icon will appear in the system tray).
+- **Installation Steps:**
 
-     - **macOS:**
+  - **Windows:**
+    - **System Requirements:**
+      - Windows 10 64-bit: Pro, Enterprise, or Education (Build 1903 or higher).
+      - Enable **Hyper-V** and **Containers** Windows features.
+    - **Install Docker Desktop:**
+      1. Download the [Docker Desktop for Windows installer](https://hub.docker.com/editions/community/docker-ce-desktop-windows).
+      2. Run the installer and follow the prompts.
+      3. Restart your computer if prompted.
+    - **Post-Installation:**
+      - Launch Docker Desktop from the Start menu.
+      - Wait for Docker to start (Docker icon will appear in the system tray).
 
-       - **System Requirements:**
-         - macOS 10.14 or newer.
+  - **macOS:**
+    - **System Requirements:**
+      - macOS 10.14 or newer.
+    - **Install Docker Desktop:**
+      1. Download Docker Desktop for Mac from the [Docker Hub](https://hub.docker.com/editions/community/docker-ce-desktop-mac).
+      2. Open the downloaded `.dmg` file.
+      3. Drag the **Docker.app** icon to the Applications folder.
+      4. Launch Docker from the Applications folder.
+    - **Post-Installation:**
+      - Docker icon should appear in the menu bar.
+      - Wait for Docker to start.
 
-       - **Install Docker Desktop:**
-         - Download Docker Desktop for Mac from the [Docker Hub](https://hub.docker.com/editions/community/docker-ce-desktop-mac).
-         - Open the downloaded `.dmg` file.
-         - Drag the Docker.app icon to the Applications folder.
-         - Launch Docker from the Applications folder.
-
-       - **Post-Installation:**
-         - Docker icon should appear in the menu bar.
-         - Wait for Docker to start.
-
-     - **Linux:**
-
-       - **Install Docker Engine:**
-         - Follow the official Docker installation guide for your specific Linux distribution: [Docker Engine Installation](https://docs.docker.com/engine/install/).
-
-       - **Post-Installation:**
-         - Add your user to the `docker` group to run Docker commands without `sudo`:
-           ```bash
-           sudo usermod -aG docker $USER
-           ```
-         - Log out and log back in for the group change to take effect.
-
-     - **Verification:**
-       - Open a new terminal or command prompt.
-       - Run `docker --version` to confirm Docker is installed.
-       - Example:
+  - **Linux:**
+    - **Install Docker Engine:**
+      - Follow the official Docker installation guide for your specific Linux distribution: [Docker Engine Installation](https://docs.docker.com/engine/install/).
+    - **Post-Installation:**
+      1. Add your user to the `docker` group to run Docker commands without `sudo`:
+         ```bash
+         sudo usermod -aG docker $USER
          ```
-         $ docker --version
-         Docker version 20.10.8, build 3967b7d
+      2. Log out and log back in for the group change to take effect.
+
+- **Verification:**
+  - Open a new terminal or command prompt.
+  - Run:
+    ```bash
+    docker --version
+    ```
+  - **Expected Output:**
+    ```
+    Docker version 20.10.x, build xxxxxxx
+    ```
+
+#### 3. **Google Cloud SDK (for deployment)**
+
+- **Installation Steps:**
+
+  - **Windows:**
+    1. Visit the [Google Cloud SDK Installation Page for Windows](https://cloud.google.com/sdk/docs/install#windows).
+    2. Download the installer (`google-cloud-sdk-<VERSION>.exe`).
+    3. Run the installer:
+       - Check the option to install the `gcloud` command-line tool.
+       - Optionally, select to install the Python components (recommended).
+    4. Follow the installation prompts.
+
+  - **macOS:**
+    - **Using Installer:**
+      1. Download the `.tar.gz` archive from the [Google Cloud SDK Installation Page for macOS](https://cloud.google.com/sdk/docs/install#mac).
+      2. Open Terminal.
+      3. Extract the archive:
+         ```bash
+         tar -xf google-cloud-sdk-*.tar.gz
          ```
+      4. Run the installer script:
+         ```bash
+         ./google-cloud-sdk/install.sh
+         ```
+      5. Follow the prompts to complete the installation.
 
-3. **Google Cloud SDK (for deployment)** *[Need]*
+    - **Alternative via Homebrew:**
+      ```bash
+      brew install --cask google-cloud-sdk
+      ```
+      *Ensure Homebrew is installed.*
 
-   - **Installation Steps:**
-
-     - **Windows:**
-
-       - **Download Installer:**
-         - Visit the [Google Cloud SDK installation page](https://cloud.google.com/sdk/docs/install#windows) for Windows.
-         - Download the installer (`google-cloud-sdk-<VERSION>.exe`).
-
-       - **Run Installer:**
-         - Double-click the installer.
-         - Check the option to install `gcloud` command-line tool and to start the Cloud SDK Shell.
-         - Optionally, select to install the Python components (recommended).
-
-       - **Verification:**
-         - Open Command Prompt or PowerShell.
-         - Run `gcloud --version` to verify installation.
-
-     - **macOS:**
-
-       - **Using Installer:**
-         - Download the `.tar.gz` archive from the [Google Cloud SDK installation page](https://cloud.google.com/sdk/docs/install#mac).
-
-       - **Install:**
-         - Open Terminal.
-         - Extract the archive:
-           ```bash
-           tar -xf google-cloud-sdk-*.tar.gz
-           ```
-         - Run the installer script:
-           ```bash
-           ./google-cloud-sdk/install.sh
-           ```
-
-       - **Verification:**
-         - Restart your terminal or run `exec -l $SHELL`.
-         - Run `gcloud --version` to verify installation.
-
-     - **Linux:**
-
-       - **Download Archive:**
-         - Download the `.tar.gz` archive from the [Google Cloud SDK installation page](https://cloud.google.com/sdk/docs/install#linux).
-
-       - **Install:**
-         - Open Terminal.
-         - Extract the archive:
-           ```bash
-           tar -xf google-cloud-sdk-*.tar.gz
-           ```
-         - Run the installer script:
-           ```bash
-           ./google-cloud-sdk/install.sh
-           ```
-
-       - **Verification:**
-         - Restart your terminal or run `exec -l $SHELL`.
-         - Run `gcloud --version` to verify installation.
-
-   - **Initialize Google Cloud SDK:**
-
-     - Run the following command:
+  - **Linux:**
+    1. Download the `.tar.gz` archive from the [Google Cloud SDK Installation Page for Linux](https://cloud.google.com/sdk/docs/install#linux).
+    2. Open Terminal.
+    3. Extract the archive:
        ```bash
-       gcloud init
+       tar -xf google-cloud-sdk-*.tar.gz
        ```
-     - Follow the prompts to log in with your Google account and select or create a project.
+    4. Run the installer script:
+       ```bash
+       ./google-cloud-sdk/install.sh
+       ```
+    5. Follow the prompts to complete the installation.
 
-   - **Note:**
-     - Ensure that you have a Google Cloud account and have set up billing (even for free tier usage).
+- **Initialization:**
+  - Run the following command to initialize the SDK:
+    ```bash
+    gcloud init
+    ```
+  - Follow the prompts to log in with your Google account and select or create a project.
+
+- **Verification:**
+  - Open a new terminal or command prompt.
+  - Run:
+    ```bash
+    gcloud --version
+    ```
+  - **Expected Output:**
+    ```
+    Google Cloud SDK x.x.x
+    bq x.x.x
+    core x.x.x
+    gsutil x.x.x
+    ```
+  
+- **Note:**
+  - Ensure that you have a [Google Cloud account](https://cloud.google.com/) and have set up billing (even for free tier usage).
 
 ### **Install Backend Dependencies**
 
-1. **Django** *[Need]*
+#### 1. **Django**
 
-   - **Installation Steps:**
+- **Installation Steps:**
 
-     - **Create a Project Directory:**
-
+  - **All Operating Systems:**
+    1. **Create a Project Directory:**
        ```bash
        mkdir backend
        cd backend
        ```
-
-     - **Create and Activate Virtual Environment:**
-
+    2. **Create and Activate Virtual Environment:**
        - **Using `venv`:**
-
-         - Create virtual environment:
-           ```bash
-           python3 -m venv venv
-           ```
-         - Activate virtual environment:
-
-           - On Windows:
+         ```bash
+         python3 -m venv venv
+         ```
+         - **Activate Virtual Environment:**
+           - **Windows:**
              ```bash
              venv\Scripts\activate
              ```
-           - On macOS/Linux:
+           - **macOS/Linux:**
              ```bash
              source venv/bin/activate
              ```
-
-     - **Upgrade `pip`:**
-
+    3. **Upgrade `pip`:**
        ```bash
        pip install --upgrade pip
        ```
-
-     - **Install Django:**
-
+    4. **Install Django:**
        ```bash
        pip install django
        ```
+    5. **Verification:**
+       - Run:
+         ```bash
+         django-admin --version
+         ```
+       - **Expected Output:**
+         ```
+         3.x.x
+         ```
 
-     - **Verification:**
+#### 2. **Django REST Framework (DRF)**
 
-       - Run `django-admin --version` to confirm installation.
+- **Installation Steps:**
 
-2. **Django REST Framework (DRF)** *[Need]*
-
-   - **Installation Steps:**
-
-     - **Install DRF:**
-
+  - **All Operating Systems:**
+    1. **Install DRF:**
        ```bash
        pip install djangorestframework
        ```
-
-     - **Add to Installed Apps:**
-
+    2. **Add to Installed Apps:**
        - In your Django project's `settings.py`, add `'rest_framework'` to the `INSTALLED_APPS` list:
          ```python
          INSTALLED_APPS = [
@@ -213,116 +242,308 @@
          ]
          ```
 
-3. **psycopg2 (PostgreSQL adapter)** *[Need]*
+#### 3. **psycopg2 (PostgreSQL Adapter)**
 
-   - **Installation Steps:**
+- **Installation Steps:**
 
-     - **Option 1: Install `psycopg2-binary` (Recommended for Development):**
+  - **Option 1: Install `psycopg2-binary` (Recommended for Development)**
+    - **All Operating Systems:**
+      ```bash
+      pip install psycopg2-binary
+      ```
 
-       ```bash
-       pip install psycopg2-binary
-       ```
-
-     - **Option 2: Install `psycopg2` (Recommended for Production):**
-
-       - **Note:** Installing `psycopg2` may require PostgreSQL development headers and libraries.
-
-       - **Install Dependencies (if necessary):**
-
-         - **On macOS:**
-           ```bash
-           brew install postgresql
-           ```
-         - **On Linux (Ubuntu/Debian):**
-           ```bash
-           sudo apt-get install libpq-dev
-           ```
-         - **On Windows:**
-           - Download and install PostgreSQL from the [official website](https://www.postgresql.org/download/windows/).
-
-       - **Install `psycopg2`:**
-
+  - **Option 2: Install `psycopg2` (Recommended for Production)**
+    - **Note:** Installing `psycopg2` may require PostgreSQL development headers and libraries.
+    
+    - **Windows:**
+      1. Download and install PostgreSQL from the [official website](https://www.postgresql.org/download/windows/).
+      2. Ensure that PostgreSQL's `bin` directory is added to your system's PATH.
+      3. Install `psycopg2`:
          ```bash
          pip install psycopg2
          ```
 
-4. **Pytest and pytest-django (for testing)** *[Need]*
+    - **macOS:**
+      1. Install PostgreSQL using Homebrew:
+         ```bash
+         brew install postgresql
+         ```
+      2. Install `psycopg2`:
+         ```bash
+         pip install psycopg2
+         ```
 
-   - **Installation Steps:**
+    - **Linux:**
+      - **Ubuntu/Debian:**
+        ```bash
+        sudo apt-get install libpq-dev
+        pip install psycopg2
+        ```
+      - **Fedora:**
+        ```bash
+        sudo dnf install postgresql-devel
+        pip install psycopg2
+        ```
+      - **Arch Linux:**
+        ```bash
+        sudo pacman -S postgresql-libs
+        pip install psycopg2
+        ```
 
-     - **Install Packages:**
+#### 4. **Pytest and pytest-django (for Testing)**
 
+- **Installation Steps:**
+
+  - **All Operating Systems:**
+    1. **Install Packages:**
        ```bash
        pip install pytest pytest-django
        ```
-
-     - **Configuration:**
-
+    2. **Configuration:**
        - Create a `pytest.ini` file in your project's root directory with the following content:
          ```ini
          [pytest]
          DJANGO_SETTINGS_MODULE = your_project_name.settings
          python_files = tests.py test_*.py *_tests.py
          ```
-       - Replace `your_project_name` with your actual Django project name.
+       - **Replace `your_project_name`** with your actual Django project name.
 
-   - **Note:**
+- **Note:**
+  - Ensure your tests are placed in files named `test_*.py` or `*_tests.py` within your apps.
 
-     - Ensure your tests are placed in files named `test_*.py` or `*_tests.py` within your apps.
+## **Frontend Prerequisites**
 
-### **Frontend Prerequisites**
+#### 1. **Node.js v14 or Higher**
 
-1. **Node.js v14 or Higher** *(Already have)*
+- **Download and Install:**
 
-   - **Verification:**
+  - **Windows:**
+    1. Visit the [Node.js Downloads for Windows](https://nodejs.org/en/download/).
+    2. Download the Windows Installer (`.msi`).
+    3. Run the installer and follow the prompts.
 
-     - Open your terminal or command prompt.
-     - Run `node -v` to check the installed Node.js version.
-     - Example:
-       ```
-       $ node -v
-       v14.17.0
-       ```
+  - **macOS:**
+    1. Visit the [Node.js Downloads for macOS](https://nodejs.org/en/download/).
+    2. Download the macOS Installer (`.pkg`).
+    3. Open the downloaded `.pkg` file and follow the installation instructions.
 
-2. **npm Package Manager** *(Already have)*
+    - **Alternative via Homebrew:**
+      ```bash
+      brew install node@14
+      ```
 
-   - **Verification:**
+  - **Linux:**
+    - **Using NodeSource (Recommended for Latest Versions):**
+      ```bash
+      # For Node.js 14.x
+      curl -fsSL https://deb.nodesource.com/setup_14.x | sudo -E bash -
+      sudo apt-get install -y nodejs
+      ```
+      *Adjust the setup script URL based on your Linux distribution and desired Node.js version.*
 
-     - Run `npm -v` to check the installed npm version.
-     - Example:
-       ```
-       $ npm -v
-       6.14.13
-       ```
+    - **Using Package Manager:**
+      - **Ubuntu/Debian:**
+        ```bash
+        sudo apt update
+        sudo apt install nodejs npm
+        ```
+      - **Fedora:**
+        ```bash
+        sudo dnf install nodejs npm
+        ```
+      - **Arch Linux:**
+        ```bash
+        sudo pacman -S nodejs npm
+        ```
 
-   - **Note:**
+- **Verification:**
+  - Open your terminal or command prompt.
+  - Run:
+    ```bash
+    node -v
+    ```
+  - **Expected Output:**
+    ```
+    v14.x.x
+    ```
 
-     - npm is included with Node.js by default.
+#### 2. **npm Package Manager**
+
+- **Installation:**
+  - npm is included with Node.js. Installing Node.js as per the steps above will install npm.
+
+- **Verification:**
+  - Open your terminal or command prompt.
+  - Run:
+    ```bash
+    npm -v
+    ```
+  - **Expected Output:**
+    ```
+    6.x.x
+    ```
+
+- **Note:**
+  - If you encounter issues, ensure that Node.js and npm are correctly installed and added to your system's PATH.
 
 ### **Global Tools (Optional but Recommended)**
 
-1. **Git for Version Control** *(Already have)*
+#### 1. **Git for Version Control**
 
-   - **Verification:**
+- **Download and Install:**
 
-     - Run `git --version` to verify the installation.
-     - Example:
-       ```
-       $ git --version
-       git version 2.31.1
-       ```
+  - **Windows:**
+    1. Visit the [Git Downloads for Windows](https://git-scm.com/download/win).
+    2. Download the installer.
+    3. Run the installer and follow the prompts.
 
-2. **Virtual Environment Tools (`venv` or `virtualenv` for Python)** *(Already have)*
+  - **macOS:**
+    - **Using Installer:**
+      1. Visit the [Git Downloads for macOS](https://git-scm.com/download/mac).
+      2. Download the `.dmg` installer.
+      3. Open the downloaded file and follow the installation instructions.
 
-   - **Note:**
+    - **Alternative via Homebrew:**
+      ```bash
+      brew install git
+      ```
 
-     - Python 3 comes with `venv` built-in.
-     - `virtualenv` can be installed via `pip` if preferred:
-       ```bash
-       pip install virtualenv
-       ```
+  - **Linux:**
+    - **Ubuntu/Debian:**
+      ```bash
+      sudo apt update
+      sudo apt install git
+      ```
+    - **Fedora:**
+      ```bash
+      sudo dnf install git
+      ```
+    - **Arch Linux:**
+      ```bash
+      sudo pacman -S git
+      ```
+
+- **Verification:**
+  - Open your terminal or command prompt.
+  - Run:
+    ```bash
+    git --version
+    ```
+  - **Expected Output:**
+    ```
+    git version 2.x.x
+    ```
+
+#### 2. **Virtual Environment Tools (`venv` or `virtualenv` for Python)**
+
+- **Note:**
+  - **Python 3** comes with `venv` built-in.
+  - If you prefer using `virtualenv`, it can be installed via `pip`:
+    ```bash
+    pip install virtualenv
+    ```
+
+- **Usage:**
+  - **Using `venv`:**
+    ```bash
+    python3 -m venv venv
+    ```
+  - **Using `virtualenv`:**
+    ```bash
+    virtualenv venv
+    ```
+
+- **Activation:**
+  - **Windows:**
+    ```bash
+    venv\Scripts\activate
+    ```
+  - **macOS/Linux:**
+    ```bash
+    source venv/bin/activate
+    ```
 
 ---
+
+## **Additional Recommendations**
+
+1. **Verify Router Basenames:**
+   - Ensure that when you register your viewsets with the router in `api/urls.py`, you provide explicit `basename` values. This helps Django correctly map URL names used in the `reverse` function.
+   - **Example:**
+     ```python
+     # backend/api/urls.py
+
+     from django.urls import path, include
+     from rest_framework import routers
+     from .views import ToppingViewSet, PizzaViewSet
+
+     router = routers.DefaultRouter()
+     router.register(r'toppings', ToppingViewSet, basename='topping')
+     router.register(r'pizzas', PizzaViewSet, basename='pizza')
+
+     urlpatterns = [
+         path('', include(router.urls)),
+     ]
+     ```
+
+2. **Use Relative Paths:**
+   - Ensure that your `README.md` links use relative paths for better portability.
+   - **Example:**
+     ```markdown
+     [Prerequisites](docs/installation_prerequisites.md)
+     ```
+
+3. **Preview Your Markdown:**
+   - Before committing your changes, use a Markdown preview tool or GitHub's preview feature to ensure that all links and formatting appear correctly.
+
+4. **Consider Using a `.env` File for Environment Variables:**
+   - To manage sensitive information and configuration settings, use a `.env` file and the `python-dotenv` package.
+   - **Installation:**
+     ```bash
+     pip install python-dotenv
+     ```
+   - **Usage:**
+     - Create a `.env` file in your project's root directory.
+     - Add your environment variables:
+       ```
+       SECRET_KEY=your_secret_key_here
+       DEBUG=True
+       DATABASE_URL=postgres://user:password@localhost:5432/mydatabase
+       ```
+     - Load the `.env` file in your `settings.py`:
+       ```python
+       import os
+       from dotenv import load_dotenv
+
+       load_dotenv()
+
+       SECRET_KEY = os.getenv('SECRET_KEY')
+       DEBUG = os.getenv('DEBUG') == 'True'
+       DATABASES = {
+           'default': {
+               'ENGINE': 'django.db.backends.postgresql',
+               'NAME': os.getenv('DATABASE_NAME'),
+               'USER': os.getenv('DATABASE_USER'),
+               'PASSWORD': os.getenv('DATABASE_PASSWORD'),
+               'HOST': os.getenv('DATABASE_HOST'),
+               'PORT': os.getenv('DATABASE_PORT'),
+           }
+       }
+       ```
+
+5. **Ensure Database Migrations Are Applied Correctly:**
+   - Before running your application, make sure all migrations are created and applied:
+     ```bash
+     python manage.py makemigrations
+     python manage.py migrate
+     ```
+
+6. **Set Up Continuous Integration (CI):**
+   - Integrate your tests into a CI pipeline (e.g., GitHub Actions, Travis CI) to automatically run tests on code changes.
+
+7. **Use Factories for Test Data:**
+   - Consider using libraries like [Factory Boy](https://factoryboy.readthedocs.io/en/stable/) to create test data more efficiently.
+
 
 ## **Additional Steps and Notes**
 
