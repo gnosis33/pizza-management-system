@@ -137,7 +137,7 @@ The frontend React app will start on `http://localhost:3000/`.
 
 ```bash
 cd backend
-pytest
+python manage.py test
 ```
 
 ### Frontend Tests
@@ -261,8 +261,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 For any inquiries or support, please contact:
 
-- **Name**: Your Name
-- **Email**: your.email@example.com
+- **Name**: BRENT WISE
+- **Email**: brentjosephwise@gmail.com
 
 ---
 
@@ -306,3 +306,32 @@ This project demonstrates a full-stack application utilizing modern technologies
 ---
 
 Thank you for exploring the Pizza Management System! If you have any feedback or questions, feel free to reach out.
+
+---
+
+# NOTE:
+
+The current version of this project does not have a working version of the frontend `Jest` test. This is do to a compatibility error with `MSW` and `Jest` first it was with this error: `ReferenceError: TextEncoder is not defined` which was fixed with:
+
+"""
+Request/Response/TextEncoder is not defined (Jest)
+This issue is caused by your environment not having the Node.js globals for one reason or another. This commonly happens when using jest-environment-jsdom because it intentionally replaces built-in APIs with polyfills, breaking their Node.js compatibility.
+
+To fix this, use the jest-fixed-jsdom environment instead of jest-environment-jsdom.
+```
+npm i jest-fixed-jsdom
+```
+```
+// jest.config.js
+module.exports = {
+  testEnvironment: 'jest-fixed-jsdom',
+}
+```
+This custom environment is a superset of jest-environment-jsdom with the built-in Node.js modules added back. That being said, there are a lot of things that Jest/JSDOM breaks in your test environment that are problematic to fix. This setup is a workaround.
+
+If you find this setup cumbersome, consider migrating to a modern testing framework, like Vitest, which has none of the Node.js globals issues and provides native ESM support out of the box.
+"""
+
+BUT unfortunately resulted in this error which I have yet to resolve:
+
+`TypeError: Cannot read properties of undefined (reading 'testEnvironmentOptions')`
