@@ -95,13 +95,8 @@ pip install -r requirements.txt
 
 #### 3. Environment Variables
 
-Create a `.env` file in the `backend` directory with the following variables:
+Rename `backend.env.txt` to `.env` for backend .env template
 
-```env
-SECRET_KEY=your_secret_key
-DEBUG=True
-DATABASE_URL=your_database_url
-```
 
 #### 4. Apply Migrations
 
@@ -111,6 +106,12 @@ python manage.py migrate
 
 ### Frontend Setup
 
+#### 1. Environment Variables
+
+Rename `frontend\frontend.env.txt` to `.env` for frontend .env template
+
+#### 2. Install node packages
+
 ```bash
 cd ../frontend
 npm install
@@ -118,7 +119,17 @@ npm install
 
 ## Running the Application Locally
 
-### Start the Backend Server
+### Set frontend .env.development variables
+Set `REACT_APP_USE_MOCK=false` & `REACT_APP_USE_LOCAL_BACKEND=true` .env.development should look like:
+
+```env
+REACT_APP_USE_MOCK=false
+REACT_APP_USE_LOCAL_BACKEND=true
+REACT_APP_LOCAL_BACKEND_URL=http://localhost:8000
+REACT_APP_BACKEND_URL=http://localhost:8000
+REACT_APP_MOCK_BACKEND_URL=http://localhost:3001
+```
+#### Start the Backend Server
 
 ```bash
 cd backend
@@ -127,7 +138,7 @@ python manage.py runserver
 
 The backend server will start on `http://localhost:8000/`.
 
-### Start the Frontend Server
+#### Start the Frontend Server
 
 ```bash
 cd frontend
@@ -151,6 +162,7 @@ python manage.py test
 cd frontend
 npm test
 ```
+Currently the automated tests of the frontend is broken please read [HERE](#Manual-Testing-with-Mock-Backend) for information performing manual testing.
 
 ## Deployment
 
@@ -314,29 +326,104 @@ Thank you for exploring the Pizza Management System! If you have any feedback or
 
 ---
 
-# NOTE (WARNING):
+## Manual Testing with Mock Backend
 
-The current version of this project does not have a working version of the frontend `Jest` test. This is do to a compatibility error with `MSW` and `Jest` first it was with this error: `ReferenceError: TextEncoder is not defined` which was fixed with:
+To perform manual testing of the frontend application using the mock backend, follow these steps:
 
-"""
-Request/Response/TextEncoder is not defined (Jest)
-This issue is caused by your environment not having the Node.js globals for one reason or another. This commonly happens when using jest-environment-jsdom because it intentionally replaces built-in APIs with polyfills, breaking their Node.js compatibility.
+### 1. Configure Environment Variables
 
-To fix this, use the jest-fixed-jsdom environment instead of jest-environment-jsdom.
+Update your `.env.development` file with the following settings:
+
+```env
+REACT_APP_USE_MOCK=true
+REACT_APP_USE_LOCAL_BACKEND=false
 ```
-npm i jest-fixed-jsdom
-```
-```
-// jest.config.js
-module.exports = {
-  testEnvironment: 'jest-fixed-jsdom',
-}
-```
-This custom environment is a superset of jest-environment-jsdom with the built-in Node.js modules added back. That being said, there are a lot of things that Jest/JSDOM breaks in your test environment that are problematic to fix. This setup is a workaround.
 
-If you find this setup cumbersome, consider migrating to a modern testing framework, like Vitest, which has none of the Node.js globals issues and provides native ESM support out of the box.
-"""
+- **`REACT_APP_USE_MOCK=true`**: Enables the mock backend for testing purposes.
+- **`REACT_APP_USE_LOCAL_BACKEND=false`**: Disables the local backend to ensure all API calls are directed to the mock backend.
 
-BUT unfortunately resulted in this error which I have yet to resolve:
+### 2. Start the Frontend Application
 
-`TypeError: Cannot read properties of undefined (reading 'testEnvironmentOptions')`
+Run the following command to start the frontend server:
+
+```bash
+npm start &
+```
+
+The `&` allows the process to run in the background, freeing up your terminal for other commands.
+
+### 3. Perform CRUD Operations Manually
+
+With the frontend running and connected to the mock backend, you can now manually perform all Create, Read, Update, and Delete (CRUD) operations within the application. This setup allows you to test the frontend functionality without relying on the actual backend services.
+
+---
+
+## Frontend Tests
+
+### Running Automated Tests
+
+To execute the frontend automated tests, navigate to the `frontend` directory and run:
+
+```bash
+cd frontend
+npm test
+```
+
+### Current Issues with Automated Tests
+
+**⚠️ NOTE (WARNING):**
+
+The current version of this project has issues with the frontend automated tests due to compatibility problems between `Jest` and `MSW`. Specifically, you may encounter the following error:
+
+```
+ReferenceError: TextEncoder is not defined
+```
+
+#### Attempted Fix
+
+To address this, an attempt was made to use `jest-fixed-jsdom` instead of the default `jest-environment-jsdom`. Here are the steps that were followed:
+
+1. **Install `jest-fixed-jsdom`:**
+
+   ```bash
+   npm install jest-fixed-jsdom
+   ```
+
+2. **Update Jest Configuration:**
+
+   ```javascript
+   // jest.config.js
+   module.exports = {
+     testEnvironment: 'jest-fixed-jsdom',
+   }
+   ```
+
+   The `jest-fixed-jsdom` environment is a superset of `jest-environment-jsdom` with Node.js globals restored. However, this setup led to a new error:
+
+   ```
+   TypeError: Cannot read properties of undefined (reading 'testEnvironmentOptions')
+   ```
+
+   This error indicates that there are unresolved compatibility issues that prevent the tests from running successfully.
+
+#### Recommended Actions
+
+Due to these challenges, the automated frontend tests are currently broken. (and have been removed from the current commit) For more information and potential workarounds, please refer to the [detailed note](#current-issues-with-automated-tests) above.
+
+If you encounter similar issues or have solutions, contributions to resolve the testing environment are welcome.
+
+---
+
+## Future Considerations
+
+Given the ongoing issues with `Jest` and `MSW`, it is recommended to consider migrating to a more modern testing framework, such as **Vitest**, which offers better compatibility and native ESM support. Vitest can alleviate many of the Node.js global issues present in the current setup and provide a more seamless testing experience. How ever this would require a complete rewrite of the react frontend code.
+
+---
+
+## Summary
+
+- **Manual Testing**: Configure environment variables to use the mock backend and perform CRUD operations manually.
+- **Automated Tests**: Currently facing compatibility issues; manual testing is recommended until the automated tests are fixed.
+- **Future Improvements**: Consider migrating to Vitest for a more robust testing framework.
+
+For any further assistance or to report issues, please contact the development team or open an issue in the project repository.

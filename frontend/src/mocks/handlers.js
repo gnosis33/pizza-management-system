@@ -1,5 +1,5 @@
 // src/mocks/handlers.js
-import { http, HttpResponse } from 'msw'; // Import the http namespace and HttpResponse from msw
+import { http, HttpResponse } from 'msw';
 
 // Mock data for toppings
 let toppings = [
@@ -10,7 +10,7 @@ let toppings = [
 
 // Mock data for pizzas
 let pizzas = [
-  { id: 1, name: 'Margherita', toppings: [1, 2] }, // Assuming topping IDs
+  { id: 1, name: 'Margherita', toppings: [1, 2] }, // Ensure toppings is always an array
   // Add more mock pizzas as needed
 ];
 
@@ -24,61 +24,92 @@ export const handlers = [
 
   // Add a new topping
   http.post('/api/toppings/', async ({ request }) => {
-    const { name } = await request.json();
-    const exists = toppings.some(
-      (topping) => topping.name.toLowerCase() === name.toLowerCase()
-    );
+    try {
+      const { name } = await request.json();
 
-    if (exists) {
+      // Validate that 'name' is provided
+      if (!name) {
+        return HttpResponse.json(
+          { error: 'Topping name is required.' },
+          { status: 400 }
+        );
+      }
+
+      const exists = toppings.some(
+        (topping) => topping.name.toLowerCase() === name.toLowerCase()
+      );
+
+      if (exists) {
+        return HttpResponse.json(
+          { error: 'This topping already exists.' },
+          { status: 400 }
+        );
+      }
+
+      const newTopping = { id: toppings.length + 1, name };
+      toppings.push(newTopping);
+      return HttpResponse.json(newTopping, { status: 201 });
+    } catch (error) {
       return HttpResponse.json(
-        { error: 'This topping already exists.' },
+        { error: 'Invalid request payload.' },
         { status: 400 }
       );
     }
-
-    const newTopping = { id: toppings.length + 1, name };
-    toppings.push(newTopping);
-    return HttpResponse.json(newTopping, { status: 201 });
   }),
 
   // Update a topping
   http.put('/api/toppings/:id/', async ({ request, params }) => {
-    const { id } = params;
-    const { name } = await request.json();
-    const toppingIndex = toppings.findIndex((t) => t.id === parseInt(id));
+    try {
+      const { id } = params;
+      const { name } = await request.json();
 
-    if (toppingIndex === -1) {
-      return HttpResponse.json(
-        { error: 'Topping not found.' },
-        { status: 404 }
+      // Validate that 'name' is provided
+      if (!name) {
+        return HttpResponse.json(
+          { error: 'Topping name is required.' },
+          { status: 400 }
+        );
+      }
+
+      const toppingIndex = toppings.findIndex((t) => t.id === parseInt(id));
+
+      if (toppingIndex === -1) {
+        return HttpResponse.json(
+          { error: 'Topping not found.' },
+          { status: 404 }
+        );
+      }
+
+      const exists = toppings.some(
+        (topping) =>
+          topping.name.toLowerCase() === name.toLowerCase() &&
+          topping.id !== parseInt(id, 10)
       );
-    }
 
-    const exists = toppings.some(
-      (topping) =>
-        topping.name.toLowerCase() === name.toLowerCase() &&
-        topping.id !== parseInt(id, 10)
-    );
+      if (exists) {
+        return HttpResponse.json(
+          { error: 'This topping already exists.' },
+          { status: 400 }
+        );
+      }
 
-    if (exists) {
+      toppings[toppingIndex].name = name;
+      return HttpResponse.json(toppings[toppingIndex], { status: 200 });
+    } catch (error) {
       return HttpResponse.json(
-        { error: 'This topping already exists.' },
+        { error: 'Invalid request payload.' },
         { status: 400 }
       );
     }
-
-    toppings[toppingIndex].name = name;
-    return HttpResponse.json(toppings[toppingIndex], { status: 200 });
   }),
 
-
   // Delete a topping
-  http.delete('/api/toppings/:id', ({ params }) => {
+  http.delete('/api/toppings/:id/', ({ params }) => {
     const { id } = params;
     console.log('Attempting to delete topping with ID:', id); // Debug log
-  
+
     const toppingIndex = toppings.findIndex((t) => t.id === parseInt(id, 10));
-  
+
     if (toppingIndex === -1) {
       console.log('Topping not found with ID:', id); // Additional log
       return HttpResponse.json(
@@ -86,89 +117,171 @@ export const handlers = [
         { status: 404 }
       );
     }
-  
+
     // Remove the topping from the array
     toppings.splice(toppingIndex, 1);
-  
-    // Reassign IDs to maintain uniqueness and order
-    toppings = toppings.map((topping, index) => ({
-      ...topping,
-      id: index + 1,
+
+    // Remove the topping ID from all pizzas
+    pizzas = pizzas.map((pizza) => ({
+      ...pizza,
+      toppings: pizza.toppings.filter((tid) => tid !== parseInt(id, 10)),
     }));
-  
+
     console.log('Deleted topping with ID:', id); // Debug log
-  
+
     // Return an empty response with 204 status code (no body)
     return new HttpResponse(null, { status: 204 });
   }),
 
-  // Pizza handlers
+ // Pizza handlers
 
   // Get all pizzas
   http.get('/api/pizzas/', () => {
-    const pizzasWithToppings = pizzas.map((pizza) => ({
-      ...pizza,
-      toppings: toppings.filter((t) => pizza.toppings.includes(t.id)),
-    }));
-    return HttpResponse.json(pizzasWithToppings, { status: 200 });
+    try {
+      const pizzasWithToppings = pizzas.map((pizza) => ({
+        ...pizza,
+        toppings: Array.isArray(pizza.toppings)
+          ? toppings.filter((t) => pizza.toppings.includes(t.id))
+          : [],
+      }));
+      return HttpResponse.json(pizzasWithToppings, { status: 200 });
+    } catch (error) {
+      console.error('Error in GET /api/pizzas/:', error);
+      return HttpResponse.json(
+        { error: 'Failed to retrieve pizzas.' },
+        { status: 500 }
+      );
+    }
   }),
 
   // Add a new pizza
   http.post('/api/pizzas/', async ({ request }) => {
-    const { name, toppings: toppingIds } = await request.json();
-    const exists = pizzas.some(
-      (pizza) => pizza.name.toLowerCase() === name.toLowerCase()
-    );
+    try {
+      const { name, topping_ids: toppingIds } = await request.json(); // Updated field
 
-    if (exists) {
+      // Validate that 'name' is provided
+      if (!name) {
+        return HttpResponse.json(
+          { error: 'Pizza name is required.' },
+          { status: 400 }
+        );
+      }
+
+      // Validate that 'topping_ids' is an array
+      if (!Array.isArray(toppingIds)) {
+        return HttpResponse.json(
+          { error: 'Topping IDs must be an array.' },
+          { status: 400 }
+        );
+      }
+
+      const exists = pizzas.some(
+        (pizza) => pizza.name.toLowerCase() === name.toLowerCase()
+      );
+
+      if (exists) {
+        return HttpResponse.json(
+          { error: 'This pizza already exists.' },
+          { status: 400 }
+        );
+      }
+
+      // Validate that all topping IDs exist
+      const invalidToppings = toppingIds.filter(
+        (id) => !toppings.some((topping) => topping.id === id)
+      );
+
+      if (invalidToppings.length > 0) {
+        return HttpResponse.json(
+          { error: `Invalid topping IDs: ${invalidToppings.join(', ')}` },
+          { status: 400 }
+        );
+      }
+
+      const newPizza = {
+        id: pizzas.length + 1,
+        name,
+        toppings: toppingIds, // Store topping IDs
+      };
+      pizzas.push(newPizza);
+      return HttpResponse.json(newPizza, { status: 201 });
+    } catch (error) {
       return HttpResponse.json(
-        { error: 'This pizza already exists.' },
+        { error: 'Invalid request payload.' },
         { status: 400 }
       );
     }
-
-    const newPizza = {
-      id: pizzas.length + 1,
-      name,
-      toppings: toppingIds,
-    };
-    pizzas.push(newPizza);
-    return HttpResponse.json(newPizza, { status: 201 });
   }),
 
   // Update a pizza
   http.put('/api/pizzas/:id/', async ({ request, params }) => {
-    const { id } = params;
-    const { name, toppings: toppingIds } = await request.json();
-    const pizzaIndex = pizzas.findIndex((p) => p.id === parseInt(id));
+    try {
+      const { id } = params;
+      const { name, topping_ids: toppingIds } = await request.json(); // Updated field
 
-    if (pizzaIndex === -1) {
-      return HttpResponse.json(
-        { error: 'Pizza not found.' },
-        { status: 404 }
+      // Validate that 'name' is provided
+      if (!name) {
+        return HttpResponse.json(
+          { error: 'Pizza name is required.' },
+          { status: 400 }
+        );
+      }
+
+      // Validate that 'topping_ids' is an array
+      if (!Array.isArray(toppingIds)) {
+        return HttpResponse.json(
+          { error: 'Topping IDs must be an array.' },
+          { status: 400 }
+        );
+      }
+
+      const pizzaIndex = pizzas.findIndex((p) => p.id === parseInt(id));
+
+      if (pizzaIndex === -1) {
+        return HttpResponse.json(
+          { error: 'Pizza not found.' },
+          { status: 404 }
+        );
+      }
+
+      const exists = pizzas.some(
+        (pizza) =>
+          pizza.name.toLowerCase() === name.toLowerCase() &&
+          pizza.id !== parseInt(id)
       );
-    }
 
-    const exists = pizzas.some(
-      (pizza) =>
-        pizza.name.toLowerCase() === name.toLowerCase() &&
-        pizza.id !== parseInt(id)
-    );
+      if (exists) {
+        return HttpResponse.json(
+          { error: 'This pizza already exists.' },
+          { status: 400 }
+        );
+      }
 
-    if (exists) {
+      // Validate that all topping IDs exist
+      const invalidToppings = toppingIds.filter(
+        (tid) => !toppings.some((topping) => topping.id === tid)
+      );
+
+      if (invalidToppings.length > 0) {
+        return HttpResponse.json(
+          { error: `Invalid topping IDs: ${invalidToppings.join(', ')}` },
+          { status: 400 }
+        );
+      }
+
+      pizzas[pizzaIndex] = {
+        id: parseInt(id),
+        name,
+        toppings: toppingIds, // Update topping IDs
+      };
+
+      return HttpResponse.json(pizzas[pizzaIndex], { status: 200 });
+    } catch (error) {
       return HttpResponse.json(
-        { error: 'This pizza already exists.' },
+        { error: 'Invalid request payload.' },
         { status: 400 }
       );
     }
-
-    pizzas[pizzaIndex] = {
-      id: parseInt(id),
-      name,
-      toppings: toppingIds,
-    };
-
-    return HttpResponse.json(pizzas[pizzaIndex], { status: 200 });
   }),
 
   // Delete a pizza
@@ -184,7 +297,6 @@ export const handlers = [
     }
 
     pizzas.splice(pizzaIndex, 1);
-    return HttpResponse.text('Pizza deleted', { status: 204 });
+    return new HttpResponse(null, { status: 204 }); // No body
   }),
 ];
-
