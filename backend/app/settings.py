@@ -66,18 +66,35 @@ TEMPLATES = [
 WSGI_APPLICATION = 'app.wsgi.application'
 
 
-# Database configuration
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2', # Using PostgreSQL as the database
-        'NAME': os.getenv('DB_NAME'),
-        'USER': os.getenv('DB_USER'),
-        'PASSWORD': os.getenv('DB_PASSWORD'),
-        'HOST': os.getenv('DB_HOST'),
-        'PORT': os.getenv('DB_PORT'),
-    }
-}
+# Detect if the app is running on Cloud Run
+IS_CLOUD_RUN = os.getenv("IS_CLOUD_RUN") == "true"
 
+# Database configuration
+if IS_CLOUD_RUN:
+    # Use Cloud SQL configuration for Cloud Run
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': os.getenv('DB_NAME'),
+            'USER': os.getenv('DB_USER'),
+            'PASSWORD': os.getenv('DB_PASSWORD'),
+            'HOST': f'/cloudsql/{os.getenv("INSTANCE_CONNECTION_NAME")}',  # Cloud SQL Unix socket
+        }
+    }
+else:
+    # Standard configuration for local development
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': os.getenv('DB_NAME'),
+            'USER': os.getenv('DB_USER'),
+            'PASSWORD': os.getenv('DB_PASSWORD'),
+            'HOST': os.getenv('DB_HOST', 'localhost'),  # Fallback to localhost for local dev
+            'PORT': os.getenv('DB_PORT', '5432'),       # Default PostgreSQL port
+        }
+    }
+
+# Optionally support DATABASE_URL for flexibility
 DATABASE_URL = os.getenv('DATABASE_URL')
 if DATABASE_URL:
     DATABASES['default'] = dj_database_url.config(default=DATABASE_URL)

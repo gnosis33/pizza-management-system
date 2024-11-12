@@ -2,12 +2,10 @@
 FROM python:3.12-slim
 
 # Set environment variables
-# Prevents Python from writing .pyc files to disk
 ENV PYTHONDONTWRITEBYTECODE=1
-# Ensures stdout and stderr are flushed immediately
 ENV PYTHONUNBUFFERED=1
 
-# Install system dependencies needed by psycopg2
+# Install system dependencies for psycopg2
 RUN apt-get update && \
     apt-get install -y --no-install-recommends gcc libc-dev libpq-dev && \
     rm -rf /var/lib/apt/lists/*
@@ -15,15 +13,15 @@ RUN apt-get update && \
 # Set the working directory inside the container
 WORKDIR /app
 
-# Copy requirements file into the container and install dependencies
+# Copy requirements file and install dependencies
 COPY requirements.txt /app/
 RUN pip install --upgrade pip && pip install --no-cache-dir -r requirements.txt
 
-# Copy the rest of the backend application code to the container
+# Copy the rest of the application code
 COPY . /app/
 
-# Expose port 8000 for the Django application
-EXPOSE 8000
+# Expose port 8080 for Gunicorn (aligned with Cloud Run expectations)
+EXPOSE 8080
 
-# Run the Django development server
-CMD ["./wait-for-it.sh", "db:5432", "--", "python", "manage.py", "runserver", "0.0.0.0:8000"]
+# Command to run Django with Gunicorn on Cloud Run
+CMD gunicorn app.wsgi:application --bind 0.0.0.0:$PORT
